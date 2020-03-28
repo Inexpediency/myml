@@ -13,7 +13,6 @@ from sklearn.neural_network import MLPRegressor
 def take_all_graphs(X, y, X_test, y_test):
     LinReg = LinearRegression()
     LinReg.fit(X, y)
-    prediction = LinReg.predict(X_test)
 
     # n is 7 to have overview on whole week
     KNN = KNeighborsRegressor(n_neighbors=7)
@@ -53,12 +52,14 @@ def take_all_graphs(X, y, X_test, y_test):
                  solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
                  warm_start='True')
 
-    # Plot all graphs on 1 plot
+    # # # Plot all graphs on 1 plot
+    # # Models Predictions
     prediction1 = MLP.predict(X_test)
     prediction2 = RFD.predict(X_test)
     # prediction3 = DR.predict(X_test)  # DR is very bad
     prediction4 = Rid.predict(X_test)
     prediction5 = KNN.predict(X_test)
+    # # Difference between the readings of models from real
     print("MLP", mean_absolute_error(prediction1[0], y_test.iloc[0]))  # Show MAE for 5 regression models
     print("RFR", mean_absolute_error(prediction2[0], y_test.iloc[0]))
     # print("DR", mean_absolute_error(prediction3[0], y_test.iloc[0]))

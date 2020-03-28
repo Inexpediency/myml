@@ -1,9 +1,7 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-import random
+from sklearn.ensemble import RandomForestRegressor
 
-from model_comparison import take_all_graphs
+# from testing_models import test_models
 
 #   Reading data frame from excel table
 data_frame = pd.read_excel("data/usd_changing.xlsx")
@@ -29,19 +27,22 @@ transformed_df = pd.DataFrame(new_df, columns=(past_columns+future_columns))
 X = transformed_df[past_columns]  # The part on which we study
 y = transformed_df[future_columns]  # The part that we expect at the exit
 
-# # # Model Training
-# # Training sample
-# training_count = random.randint(1, 600)
-# X = X[:-training_count]
-# y = y[:-training_count]
-# # Testing sample
-# X_test = X[-training_count:]
-# y_test = y[-training_count:]
-# # Testing
-# take_all_graphs(X, y, X_test, y_test)  # All model on 1 graph
+# # # Comparison models
+# test_models(X, y)
+# # # ~ Results
+# # MLP 0.514357981146229
+# # RFR 0.10857142857142321
+# # Ridge 0.5581110567074015
+# # KNN 0.3150102040816388
+# # # -> Should use RFR
 
-# # #
-# At the end of testing, we can conclude that it is advisable to use RandomForestRegressor model.
-# # #
+clf = RandomForestRegressor(n_estimators=7)
+clf.fit(X, y)
+RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+                      max_features='auto', max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=1, min_samples_split=2,
+                      min_weight_fraction_leaf=0.0, n_estimators=7, n_jobs=1,
+                      oob_score=False, random_state=None, verbose=0, warm_start=False)
 
 
