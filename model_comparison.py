@@ -17,40 +17,21 @@ def take_all_graphs(X, y, X_test, y_test):
     # n is 7 to have overview on whole week
     KNN = KNeighborsRegressor(n_neighbors=7)
     KNN.fit(X, y)
-    KNeighborsRegressor(algorithm='auto', leaf_size=30, metric='minkowski',
-                        metric_params=None, n_jobs=1, n_neighbors=7, p=2,
-                        weights='uniform')
 
     Rid = Ridge()
     Rid.fit(X, y)
-    Ridge(alpha=1.0, copy_X=True, fit_intercept=True, max_iter=None,
-          normalize=False, random_state=None, solver='auto', tol=0.001)
 
     DR = DummyRegressor(strategy='quantile', quantile=0.1)
     DR.fit(X, y)
-    DummyRegressor(constant=None, quantile=0.1, strategy='quantile')
 
     RFD = RandomForestRegressor(n_estimators=7)
     RFD.fit(X, y)
-    RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
-                          max_features='auto', max_leaf_nodes=None,
-                          min_impurity_decrease=0.0, min_impurity_split=None,
-                          min_samples_leaf=1, min_samples_split=2,
-                          min_weight_fraction_leaf=0.0, n_estimators=7, n_jobs=1,
-                          oob_score=False, random_state=None, verbose=0, warm_start=False)
 
     # Neural Network
     # Create a MLPRegression model with effective parameters
     MLP = MLPRegressor(random_state=42, max_iter=1000, hidden_layer_sizes=(15, 35, 15), solver='lbfgs',
                        warm_start='True')  # max_fun didnt work
     MLP.fit(X, y)
-    MLPRegressor(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
-                 beta_2=0.999, early_stopping=False, epsilon=1e-08,
-                 hidden_layer_sizes=(15, 35, 15), learning_rate='constant',
-                 learning_rate_init=0.001, max_iter=1000, momentum=0.9,
-                 nesterovs_momentum=True, power_t=0.5, random_state=42, shuffle=True,
-                 solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
-                 warm_start='True')
 
     # # # Plot all graphs on 1 plot
     # # Models Predictions
