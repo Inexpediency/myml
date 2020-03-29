@@ -1,4 +1,7 @@
+import random
+
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 
 #   Reading data frame from excel table
@@ -36,21 +39,41 @@ y = transformed_df[future_columns]  # The part that we expect at the exit
 # # # -> Should use RFR
 
 # # --- Take model params
-# from sklearn.model_selection import GridSearchCV
-# RFR = RandomForestRegressor(random_state=42)
-# param_grid = {
-#     'n_estimators': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-#     'max_depth': [None, 3, 4, 5, 6, 7, 9],
-# }
-# # --- Grid Search Cross Validation with MAE scoring
-# GS = GridSearchCV(RFR, param_grid, scoring='neg_mean_absolute_error', cv=5)
-# # --- Fit Grid Search
-# GS.fit(X, y)
+from sklearn.model_selection import GridSearchCV
+RFR = RandomForestRegressor()
+param_grid = {
+    'n_estimators': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    'max_depth': [None, 3, 4, 5, 6, 7, 9, 15, 19, 27, 39, 50],
+    'random_state': [20, 40, 60, 80]
+}
+# --- Grid Search Cross Validation with MAE scoring
+GS = GridSearchCV(RFR, param_grid, scoring='neg_mean_absolute_error', cv=5)
+# --- Fit Grid Search
+GS.fit(X, y)
 
-# # --- Take results testing
-# print(GS.best_params_)  # Best model params from param_grid  ->  {'max_depth': 5, 'n_estimators': 13}
-# print(GS.best_score_)  # Best score == MAE  ->  -0.8182807519517048
-# model = GS.best_estimator_  # Take best fitted model
+# --- Take results testing
+print(GS.best_params_)  # Best model params from param_grid  ->  {'max_depth': 5, 'n_estimators': 13}
+print(GS.best_score_)  # Best score == MAE  ->  -0.8182807519517048
+model = GS.best_estimator_  # Take best fitted model
 
-RFR = RandomForestRegressor(random_state=42, max_depth=5, n_estimators=13)
+RFR = RandomForestRegressor(max_depth=5, n_estimators=13)
+# RFR = RandomForestRegressor(n_estimators=7)
+# RFR.fit(X, y)
+
+# # Model Training
+# Training sample
+training_count = random.randint(1, 300)
+X = X[:-training_count]
+y = y[:-training_count]
+# Testing sample
+X_test = X[-training_count:]
+y_test = y[-training_count:]
+# Take Graph
 RFR.fit(X, y)
+prediction = RFR.predict(X_test)
+plt.plot(prediction[0], label='Prediction')
+plt.plot(y_test.iloc[0], label='Real')
+plt.ylabel('Cost')
+plt.xlabel('Days')
+plt.legend()
+plt.show()
