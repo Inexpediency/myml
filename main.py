@@ -1,8 +1,6 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
-# from testing_models import test_models
-
 #   Reading data frame from excel table
 data_frame = pd.read_excel("data/usd_changing.xlsx")
 
@@ -28,6 +26,7 @@ X = transformed_df[past_columns]  # The part on which we study
 y = transformed_df[future_columns]  # The part that we expect at the exit
 
 # # # Comparison models
+# from testing_models import test_models
 # test_models(X, y)
 # # # ~ Results
 # # MLP 0.514357981146229
@@ -36,13 +35,22 @@ y = transformed_df[future_columns]  # The part that we expect at the exit
 # # KNN 0.3150102040816388
 # # # -> Should use RFR
 
-clf = RandomForestRegressor(n_estimators=7)
-clf.fit(X, y)
-RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
-                      max_features='auto', max_leaf_nodes=None,
-                      min_impurity_decrease=0.0, min_impurity_split=None,
-                      min_samples_leaf=1, min_samples_split=2,
-                      min_weight_fraction_leaf=0.0, n_estimators=7, n_jobs=1,
-                      oob_score=False, random_state=None, verbose=0, warm_start=False)
+# # --- Take model params
+# from sklearn.model_selection import GridSearchCV
+# RFR = RandomForestRegressor(random_state=42)
+# param_grid = {
+#     'n_estimators': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+#     'max_depth': [None, 3, 4, 5, 6, 7, 9],
+# }
+# # --- Grid Search Cross Validation with MAE scoring
+# GS = GridSearchCV(RFR, param_grid, scoring='neg_mean_absolute_error', cv=5)
+# # --- Fit Grid Search
+# GS.fit(X, y)
 
+# # --- Take results testing
+# print(GS.best_params_)  # Best model params from param_grid  ->  {'max_depth': 5, 'n_estimators': 13}
+# print(GS.best_score_)  # Best score == MAE  ->  -0.8182807519517048
+# model = GS.best_estimator_  # Take best fitted model
 
+RFR = RandomForestRegressor(random_state=42, max_depth=5, n_estimators=13)
+RFR.fit(X, y)
