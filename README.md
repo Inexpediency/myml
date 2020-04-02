@@ -23,6 +23,12 @@
 ---
 
 # Description
--    This simple model is able to determine the dollar exchange rate for tomorrow and the future as a whole
--    By launching the `testing_models.py` file you can test and verify the models and their values yourself
--    In `data/` folder you can see some grafics
+*    This simple model is able to determine the dollar exchange rate for tomorrow and the future as a whole
+*    By launching the `testing_models.py` file you can test and verify the models and their values yourself
+*    In `data/` folder you can see some grafics
+     <br>
+     <img src="https://github.com/Ythosa/myml/blob/master/data/hist_days_cost.png">
+     <br>
+     <img src="https://github.com/Ythosa/myml/blob/master/data/plot_cost_days.png">
+     <br>
+     <img src="https://github.com/Ythosa/myml/blob/master/data/model_comparison_example.png">
